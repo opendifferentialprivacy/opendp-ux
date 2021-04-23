@@ -1,0 +1,15 @@
+[
+    {
+    "model": "terms_of_access.termsofaccess",
+    "pk": 1,
+    "fields": {
+        "created": "2020-11-09T17:55:43.854Z",
+        "updated": "2020-11-09T17:55:53.111Z",
+        "name": "Harvard Dataverse Terms of Access",
+        "description": "an in-depth description",
+        "active": true,
+        "version": 0,
+        "notes": "Harvard Dataverse TOA"
+        }
+    }
+]

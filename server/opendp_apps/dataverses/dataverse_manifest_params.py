@@ -133,7 +133,7 @@ class DataverseManifestParams(BasicErrCheck):
         if not isinstance(full_schema_info, dict):
             return err_resp('"full_schema_info" must be a Python dict')
 
-        if not dv_static.SCHEMA_KEY_DISTRIBUTION in full_schema_info:
+        if dv_static.SCHEMA_KEY_DISTRIBUTION not in full_schema_info:
             return err_resp(f'"{dv_static.SCHEMA_KEY_DISTRIBUTION}" not found in the schema')
 
         url_ending_1 = f'/{file_id}'

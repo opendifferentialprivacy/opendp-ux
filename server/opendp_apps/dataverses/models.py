@@ -172,7 +172,6 @@ class ManifestTestParams(DataverseParams):
         verbose_name = ('Manifest Test Parameter')
         verbose_name_plural = ('Manifest Test Parameters')
 
-
     def make_test_handoff_object(self):
         """For unit tests, make a DataverseHandoff object with the same params"""
 
@@ -254,8 +253,6 @@ class ManifestTestParams(DataverseParams):
         return (f'<a href="{dataset_lnk}?persistentId={self.datasetPid}'
                 f'&exporter={dv_static.EXPORTER_FORMAT_SCHEMA_ORG}">schema.org info</a>')
     schema_org_info_link.allow_tags = True
-
-
 
     def get_dataverse_ddi_url(self):
         """Mock url for retrieving the DDI"""

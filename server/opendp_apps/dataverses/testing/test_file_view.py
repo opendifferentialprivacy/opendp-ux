@@ -6,21 +6,36 @@ from django.test import TestCase
 from opendp_apps.dataverses.dataverse_manifest_params import DataverseManifestParams
 from opendp_apps.dataverses.models import ManifestTestParams
 from opendp_apps.dataverses.testing import schema_test_data
+from opendp_apps.dataverses.testing.test_endpoints import BaseEndpointTest
 from opendp_apps.model_helpers.msg_util import msgt
 
 
-
-class FileViewGetTest(TestCase):
+# TODO: split this into endpoint and view tests
+class FileViewGetTest(BaseEndpointTest):
 
     fixtures = ['test_dataverses_01.json',
                 'test_manifest_params_04.json',
                 'test_opendp_users_01.json']
 
+    @skip("Mocking issues with schema here")
+    @requests_mock.Mocker()
+    def test_00_list_successful(self, req_mocker):
+        """(00) test_list_successful"""
+        msgt(self.test_00_list_successful.__doc__)
+        self.set_mock_requests(req_mocker)
+
+        response = self.client.get('/api/dv-file/',
+                                   data={'handoff_id': '9e7e5506-dd1a-4979-a2c1-ec6e59e4769c',
+                                         'user_id': '6c4986b1-e90d-48a2-98d5-3a37da1fd331'})
+        print("RESPONSE: ", response.json())
+        self.assertEquals(response.status_code, 200)
+        self.assertEquals(response.json().get('dv_installation'), 1)
 
     @requests_mock.Mocker()
     def test_10_successful_get(self, req_mocker):
         """(10) test_successful_creation"""
         msgt(self.test_10_successful_get.__doc__)
+        self.set_mock_requests(req_mocker)
 
         # From fixture file: "test_manifest_params_04.json"
         tparams = ManifestTestParams.objects.get(object_id='4bcad631-ce7c-475e-a569-29e71ee0b2ee')
@@ -78,7 +93,6 @@ class FileViewGetTest(TestCase):
         self.assertEqual(response.json().get('success'), False)
         self.assertTrue('message' in response.json())
 
-
     def test_20_schema_info_parsing(self):
         """Retrieve the correct dataset from schema info, using File Ids"""
         msgt(self.test_20_schema_info_parsing.__doc__)
@@ -129,7 +143,6 @@ class FileViewGetTest(TestCase):
                                             file_persistent_id=schema_test_data.schema_info_01_file_pid)
         self.assertTrue(file_resp.success is False)
         self.assertTrue(file_resp.message.find(str(bad_file_id)) > -1)
-
 
     def test_40_schema_info_parsing(self):
         """Retrieve the correct dataset from schema info, uses DOIs"""

@@ -121,6 +121,7 @@ class BaseEndpointTest(TestCase):
             "provider": {"@type": "Organization", "name": "Demo Dataverse"}
         }
 
+        # TODO: cleanup these duplicated calls
         req_mocker.get('http://127.0.0.1:8000/dv-mock-api/api/v1/datasets/export?exporter=schema.org&'
                        'persistentId=&User-Agent=pydataverse&key=some-token',
                        json=dataset_info)
@@ -139,6 +140,10 @@ class BaseEndpointTest(TestCase):
 
         req_mocker.get('http://127.0.0.1:8000/dv-mock-api/api/v1/datasets/export?exporter=schema.org&'
                        'persistentId=None&User-Agent=pydataverse',
+                       json={'distribution': 'just some mock data'})
+
+        req_mocker.get('http://127.0.0.1:8000/dv-mock-api/api/v1/datasets/export?exporter=schema.org&'
+                       'persistentId=&User-Agent=pydataverse&key=some-token',
                        json={'distribution': 'just some mock data'})
 
     def get_basic_inputs(self, user_id, dataverse_handoff_id):
